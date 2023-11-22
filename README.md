@@ -1,11 +1,13 @@
-# check_nextcloud
+# Nagios/Centron check | Nextcloud serverinfo
 
 Nagios/Centreon plugin for nextcloud serverinfo API (https://github.com/nextcloud/serverinfo)
+
+This branch contains the check for Python 3. A version for Python 2.7 can be found [here](https://github.com/BornToBeRoot/check_nextcloud/tree/stable-python2.7).
 
 ## Syntax / Help
 
 ```
-./check_nextcloud.py -u username -p password -H cloud.example.com -c [system|storage|shares|webserver|php|database|users]
+./check_nextcloud.py -u username -p password -H cloud.example.com -c [system|storage|shares|webserver|php|database|users|apps]
 
 
 Options:
@@ -16,12 +18,14 @@ Options:
                         on the nextcloud server
   -p PASSWORD, --password=PASSWORD
                         Password of the user
+  -t TOKEN, --nc-token=TOKEN
+                        NC-Token for the Serverinfo API
   -H HOSTNAME, --hostname=HOSTNAME
                         Nextcloud server address (make sure that the address
                         is a trusted domain in the config.php)
   -c CHECK, --check=CHECK
                         The thing you want to check
-                        [system|storage|shares|webserver|php|database|activeUsers|uploadFilesize]
+                        [system|storage|shares|webserver|php|database|activeUsers|uploadFilesize|apps]
   --upload-filesize     Filesize in MiB, GiB without spaces (default="512.0GiB")
   --protocol=PROTOCOL   Protocol you want to use [http|https]
                         (default="https")
