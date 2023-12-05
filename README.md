@@ -89,6 +89,17 @@ CRITICAL - Upload max filesize is set to 512.0MiB, but should be 2.0GiB
 Adjust the command path to your local situation.
 
 ```
+// Helper function to let the --api-url obly be passed when we have a value for it.
+// Discussion on https://community.icinga.com/t/checkcommand-parameters-set-if-with-a-string-how-to-call-functions-in-set-if/2276/6
+globals.all_exist = function (args) {
+  # Check if all elements provided in list not empty
+  for (arg in args) {
+        if (len(arg)==0) {
+      return false
+    }
+  }
+  return true
+}
 object CheckCommand "check_nextcloud" {
   command = [ "/var/lib/nagios/src/check_nextcloud/check/check_nextcloud.py" ]
   arguments = {
@@ -102,7 +113,11 @@ object CheckCommand "check_nextcloud" {
     }
     "--api-url" = {
       value = "$nextcloud_api_url$"
-      set_if = "$nextcloud_api_url$"
+      //set_if = {{ macro("$nextcloud_api_url$") }}
+      set_if = {{
+        var args = [ macro("$nextcloud_api_url$") ]
+        all_exist(args)
+      }}
       description = "Api-url"
     }
     "--check" = {
