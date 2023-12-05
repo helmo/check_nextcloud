@@ -135,7 +135,7 @@ object CheckCommand "check_nextcloud" {
 ```
 apply Service for (checkname in ["system","storage","shares","webserver","php","database","activeUsers","uploadFilesize","apps"]) {
   import "generic-service"
-  name = "check-nextcloud-" + checkname
+  name = "nextcloud-check-" + checkname
   check_interval = 30m
   retry_interval = 10m
   display_name = "Nextcloud monitor " + checkname
@@ -168,4 +168,12 @@ object Host "server42.example.com" {
   vars.nextcloud_api_url = "/subdir/ocs/v2.php/apps/serverinfo/api/v1/info"
 }
 
+```
+
+```
+object ServiceGroup "nextcloud-checks" {
+  display_name = "Nextcloud Checks"
+
+  assign where match("nextcloud-check-*", service.name)
+}
 ```
