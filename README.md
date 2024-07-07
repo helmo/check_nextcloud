@@ -100,6 +100,7 @@ globals.all_exist = function (args) {
   }
   return true
 }
+
 object CheckCommand "check_nextcloud" {
   command = [ "/var/lib/nagios/src/check_nextcloud/check/check_nextcloud.py" ]
   arguments = {
@@ -113,7 +114,6 @@ object CheckCommand "check_nextcloud" {
     }
     "--api-url" = {
       value = "$nextcloud_api_url$"
-      //set_if = {{ macro("$nextcloud_api_url$") }}
       set_if = {{
         var args = [ macro("$nextcloud_api_url$") ]
         all_exist(args)
